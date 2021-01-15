@@ -1,0 +1,49 @@
+@startuml
+participant Web
+participant API
+participant "JWTAuthenticationFilter" as JWTFilter
+participant "AnonymousAuthenticationFilter" as AnonFilter
+
+participant TokenService
+participant CookieFactory
+participant UserDetailsService
+
+Web->API: filter request
+
+API->JWTFilter:
+
+JWTFilter->JWTFilter: extract token and csrf
+
+JWTFilter->TokenService: verify token and csrf
+
+JWTFilter->UserDetailsService: check user
+
+JWTFilter->API:
+
+API->AnonFilter: filter request
+
+alt if there is authentication
+
+AnonFilter->API: ok
+
+else if there is anon token
+
+AnonFilter->AnonFilter: put authentication\nto context
+AnonFilter->API: ok
+
+else
+
+AnonFilter->TokenService: issue and sign anon auth
+TokenService->AnonFilter: { anon token }
+
+AnonFilter->CookieFactory: create cookie
+CookieFactory->AnonFilter: { cookie }
+AnonFilter->AnonFilter: put cookie and \nauthentication\nto context
+
+AnonFilter->API: ok
+end
+
+
+
+API->Web:
+@enduml

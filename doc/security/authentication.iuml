@@ -1,0 +1,33 @@
+@startuml
+participant Web
+participant Controller
+participant AuthManager
+participant TokenService
+participant CookieFactory
+
+Web->Controller: POST /api/sessions\n{ userName, password }
+
+Controller->AuthManager: authenticate\n{ userName, password }
+
+
+AuthManager->Controller: { auth object }
+
+alt not authenticated
+
+Controller->Web: { 400 BAD REQUEST\ninvalid-credentials }
+
+end
+
+Controller->TokenService: issue signed token
+TokenService->Controller: { token }
+
+alt cookie is required
+
+Controller->CookieFactory: create cookie\n{ token }
+CookieFactory->Controller: { cookie }
+Controller->Controller: set cookie to response
+
+end
+
+Controller->Web: 200 OK\n { userName, displayName, roles,\ncsrfToken, token (only if cookie is not required) }
+@enduml
