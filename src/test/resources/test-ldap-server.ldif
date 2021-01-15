@@ -1,0 +1,53 @@
+dn: dc=mission-control
+objectClass: top
+objectClass: domain
+
+dn: ou=people,dc=mission-control
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: ou=disabled,dc=mission-control
+objectclass: top
+objectclass: organizationalUnit
+ou: disabled
+
+dn: uid=reader,ou=people,dc=mission-control
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: reader reader
+sn: reader
+uid: reader
+userPassword: reader
+
+dn: uid=paul,ou=people,dc=mission-control
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: chris paul
+sn: chris
+uid: paul
+userPassword: 123
+
+dn: uid=deleted,ou=people,dc=mission-control
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: chris deleted
+sn: chris
+uid: deleted
+userPassword: 123
+
+dn: uid=disabled,ou=disabled,dc=mission-control
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: chris disabled
+sn: chris
+uid: disabled
+userPassword: 123

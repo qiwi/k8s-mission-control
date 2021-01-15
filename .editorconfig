@@ -1,0 +1,2 @@
+[*.{kt,kts}]
+disabled_rules=final-newline,import-ordering

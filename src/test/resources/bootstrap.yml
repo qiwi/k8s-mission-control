@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    vault:
+      generic.enabled: false
+      fail-fast: false
+      authentication: NONE

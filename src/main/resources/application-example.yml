@@ -1,0 +1,94 @@
+server:
+  port: 10000
+  address: 0.0.0.0
+  max-http-header-size: 20480
+
+mission-control:
+  web:
+    cors:
+      allowed-origins:
+        - "https://mission-control.example.com"
+
+    cookies:
+      domain: mission-control.example.com
+      secured: true
+
+    # LDAP Authentication
+    auth:
+      type: LDAP
+      ldap:
+        url: 'ldaps://ldap.example.com:3269/'
+        searchFilter: '(&(objectClass=user)(sAMAccountName={0}))'
+        searchBase: 'OU=users,DC=example,DC=com'
+        readerUserName: 'reader-user-name'
+        readerPassword: ${secret.auth.ldap.reader_password}
+        rolePattern: 'MISSION-CONTROL-.*'
+
+    tokens:
+      default-lifetime-seconds: 864000
+      issuer: mission-control
+      secret: ${secret.web-tokens.jwt_sign_secret:}
+
+    anonymous:
+      roles: ROLE_ANONYM
+
+    roles:
+      - name: ROLE_ANONYM
+        grants: read_clusters, read_deployments
+      - name: ROLE_READER
+        inherits: ROLE_ANONYM
+      - name: ROLE_ADMIN
+        inherits: ROLE_READER
+      - name: NA-INT-MISSION-CONTROL-WEB
+        inherits: ROLE_READER
+
+  frontend:
+    serve:
+      enable: true
+      directory: /opt/mission-control-spa/
+    config:
+      site:
+        features:
+          show_login_button: false
+          show_deployment_endpoints: true
+
+  # Get Kubernetes tokens from Vault storage
+  tokens-source:
+    type: vault
+    vault:
+      path: 'secret/applications/devops/devops-mission-control'
+      keyTemplate: 'secret.clusters.(.*).token'
+
+  # Configure clusters
+  clusters:
+    - name: testing
+      displayName: "TESTING A"
+      host: "https://kubernetes.testing.example.com:6443"
+      dc: "datacenter-name"
+    - name: prod
+      displayName: "PROD A"
+      host: "https://kubernetes.production.example.com:6443"
+      dc: "datacenter-name"
+
+spring:
+  cloud:
+    discovery:
+      client:
+        composite-indicator.enabled: false
+
+management:
+  endpoints:
+    web:
+      base-path:
+      path-mapping:
+        health: /healthcheck
+  endpoint:
+    health:
+      show-components: always
+      show-details: always
+  health:
+    vault.enabled: false
+    ldap.enabled: false
+    discoveryComposite.enabled: false
+    diskSpace.enabled: false
+    refresh.enabled: false

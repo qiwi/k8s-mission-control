@@ -1,0 +1,40 @@
+mission-control:
+  web:
+    cookies:
+      domain: localhost:3000
+      secured: false
+
+    auth:
+      type: IN_MEMORY
+      in-memory:
+        users:
+          - name: admin
+            password: admin
+            roles: ROLE_READER, ROLE_ADMIN
+    tokens:
+      default-lifetime-seconds: 864000
+      issuer: mission-control
+      secret: mega-super-secret-for-hmac512
+
+    anonymous:
+      roles: ROLE_ANONYM
+
+    roles:
+      - name: ROLE_ANONYM
+        grants: read_clusters, read_deployments
+      - name: ROLE_READER
+        inherits: ROLE_ANONYM
+      - name: ROLE_ADMIN
+        inherits: ROLE_READER
+      - name: NA-INT-MISSION-CONTROL-WEB
+        inherits: ROLE_READER
+  tokens-source:
+    type: none
+  clusters:
+    - name: docker-desktop
+      displayName: "Local k8s env"
+      host: "https://kubernetes.docker.internal:6443"
+      dc: "localhost"
+  tokens:
+    - name: docker-desktop
+      token: ""

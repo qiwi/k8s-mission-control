@@ -1,0 +1,45 @@
+target/
+.mvn
+mvnw*
+
+### Gradle ###
+.gradle
+/build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+*.log*
+/.integration-scripts
+
+.DS_Store
+/*/target
+/log*
+/*/log
+
+files/
+old/
+temp/
+application-local.yml

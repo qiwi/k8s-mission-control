@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: ${ENVIRONMENT_PROFILE_NAME:dev,local}
+  application:
+    name: devops-mission-control
+  cloud:
+    vault:
+      fail-fast: false
+      generic.enabled: false
+      kv.enabled: false
+      authentication: NONE
