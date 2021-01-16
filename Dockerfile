@@ -1,7 +1,7 @@
 # SPA BUILDER CONTAINER
 FROM node:14 AS spabuild
 
-COPY spa/package.json spa/yarn.lock spa/.npmrc /app/
+COPY spa/package.json spa/yarn.lock /app/
 WORKDIR /app
 RUN yarn
 
