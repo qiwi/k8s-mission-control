@@ -12,4 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file infra/Dockerfile --tag avalarin/mission-control:latest --tag avalarin/mission-control:$(date +%s)
+      run: docker build . --tag avalarin/mission-control:latest --tag avalarin/mission-control:$(date +%s)
