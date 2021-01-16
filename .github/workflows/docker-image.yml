@@ -20,10 +20,10 @@ jobs:
         java-version: 11
     - name: Export env variables
       run: |
-        export APP_VERSION=$(cat ./VERSION)
-        export IMAGE_PREFIX=${{ github.repository_owner }}/mission-control
-        export IMAGE_TAG_LATEST=$IMAGE_PREFIX:latest
-        export IMAGE_TAG=$IMAGE_PREFIX:$APP_VERSION
+        echo 'APP_VERSION='"$(cat ./VERSION)"
+        echo 'IMAGE_PREFIX=${{ github.repository_owner }}/mission-control'
+        echo 'IMAGE_TAG_LATEST='"$IMAGE_PREFIX:latest"
+        echo 'IMAGE_TAG='"$IMAGE_PREFIX:$APP_VERSION"
     - name: Build the JAR
       run: gradle build
     - name: Build the Docker image
