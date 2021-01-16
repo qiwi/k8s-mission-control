@@ -11,5 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1.4.3
+      with:
+        java-version: 11
+    - name: Build JAR
+      run: gradle build
     - name: Build the Docker image
       run: docker build . --tag avalarin/mission-control:latest --tag avalarin/mission-control:$(date +%s)
