@@ -9,7 +9,7 @@ COPY spa/ /app/
 RUN yarn build
 
 # MAIN CONTAINER
-FROM openjdk:11-alpine
+FROM openjdk:11-jre
 
 ENV JAVA_OPTS='' \
     JAVA_ARGS='' \
