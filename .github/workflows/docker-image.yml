@@ -20,7 +20,8 @@ jobs:
         java-version: 11
     - name: Export env variables
       run: |
-        echo 'APP_VERSION='"$(cat ./VERSION)"
+        APP_VERSION="$(cat ./VERSION)"
+        echo 'APP_VERSION='"$APP_VERSION"
         echo 'IMAGE_TAG_LATEST=${{ github.repository_owner }}/mission-control:latest'
         echo 'IMAGE_TAG=${{ github.repository_owner }}/mission-control:'"$APP_VERSION"
     - name: Build the JAR
