@@ -21,9 +21,8 @@ jobs:
     - name: Export env variables
       run: |
         echo 'APP_VERSION='"$(cat ./VERSION)"
-        echo 'IMAGE_PREFIX=${{ github.repository_owner }}/mission-control'
-        echo 'IMAGE_TAG_LATEST='"$IMAGE_PREFIX:latest"
-        echo 'IMAGE_TAG='"$IMAGE_PREFIX:$APP_VERSION"
+        echo 'IMAGE_TAG_LATEST=${{ github.repository_owner }}/mission-control:latest'
+        echo 'IMAGE_TAG=${{ github.repository_owner }}/mission-control:'"$APP_VERSION"
     - name: Build the JAR
       run: gradle build
     - name: Build the Docker image
