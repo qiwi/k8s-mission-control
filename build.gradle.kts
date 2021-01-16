@@ -20,7 +20,6 @@ val ktlintVersion = "9.2.1"
 repositories {
     maven { setUrl("https://repo.maven.apache.org/maven2") }
     maven { setUrl("https://jcenter.bintray.com/") }
-    maven { setUrl("https://maven.osmp.ru/nexus/content/groups/public/") }
 }
 
 plugins {
