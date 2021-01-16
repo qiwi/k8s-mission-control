@@ -10,8 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: docker/setup-qemu-action@v1
-    - uses: docker/setup-buildx-action@v1
     - uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -22,8 +20,7 @@ jobs:
         java-version: 11
     - name: Build the JAR
       run: gradle build
-    - name: Build the Docker image and push
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: avalarin/mission-control:latest
+    - name: Build the Docker image
+      run: docker build . --tag avalarin/mission-control:latest
+    - name: Push the Docker image
+      run: docker push avalarin/mission-control:latest
