@@ -2,6 +2,8 @@
 
 One dashboard to rule them all.
 
+![Screenshot of the Clusters page](doc/images/clusters-page.png)
+
 * View all deployments in several k8s clusters on the one page
 * Look for deployment across all k8s clusters
 * View deployment details, like as status, IP, history of releases and list of pods
