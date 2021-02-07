@@ -53,7 +53,7 @@ tasks.withType<Test>().configureEach {
 }
 
 tasks.withType<Jar> {
-    archiveName = "devops-mission-control.jar"
+    archiveName = "mission-control.jar"
 }
 
 springBoot {

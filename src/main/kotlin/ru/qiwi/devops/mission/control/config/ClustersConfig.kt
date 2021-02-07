@@ -6,32 +6,24 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConstructorBinding
 @ConfigurationProperties("mission-control")
 class ClustersConfig(
-    val tokensSource: TokensSource? = null,
-    val clusters: List<ClusterRecord>,
+    val clustersSource: ClustersSource? = null,
+    val clusters: List<ClusterRecord> = emptyList(),
     val tokens: List<TokenRecord> = emptyList()
 )
 
-class TokensSource(
-    val type: TokensSourceType,
-    val kubeconfig: KubeconfigTokensSource? = null,
-    val vault: VaultTokensSource? = null
+class ClustersSource(
+    val type: ClustersSourceType,
+    val kubeconfig: KubeconfigClustersSource? = null
 )
 
-enum class TokensSourceType {
-    NONE,
-    KUBECONFIG,
-    VAULT
+class KubeconfigClustersSource(
+    val path: String
+)
+
+enum class ClustersSourceType {
+    APPCONFIG,
+    KUBECONFIG
 }
-
-class KubeconfigTokensSource(
-    val path: String,
-    val aliases: Map<String, String> = emptyMap()
-)
-
-class VaultTokensSource(
-    val path: String,
-    val keyTemplate: String
-)
 
 class TokenRecord(
     val name: String,
