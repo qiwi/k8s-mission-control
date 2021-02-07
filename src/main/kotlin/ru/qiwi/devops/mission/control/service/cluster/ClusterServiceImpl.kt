@@ -4,25 +4,22 @@ import io.kubernetes.client.openapi.ApiClient
 import io.kubernetes.client.util.ClientBuilder
 import io.kubernetes.client.util.credentials.AccessTokenAuthentication
 import org.springframework.stereotype.Service
-import ru.qiwi.devops.mission.control.config.ClustersConfig
 import ru.qiwi.devops.mission.control.model.KubeCluster
 import ru.qiwi.devops.mission.control.service.health.cluster.ClusterHealthMonitorSource
 import ru.qiwi.devops.mission.control.service.k8s.KubernetesClient
 import ru.qiwi.devops.mission.control.service.k8s.KubernetesClientImpl
-import ru.qiwi.devops.mission.control.service.security.KubernetesTokenSource
 import ru.qiwi.devops.mission.control.utils.getLogger
 import ru.qiwi.devops.mission.control.utils.getUnsafeOkHttpClient
 import java.io.Closeable
 
 @Service
 class ClusterServiceImpl(
-    private val config: ClustersConfig,
-    private val tokenSource: KubernetesTokenSource,
+    clusterSource: KubernetesClusterSource,
     private val monitorSource: ClusterHealthMonitorSource
 ) : ClusterService, Closeable {
     private val logger = getLogger<ClusterServiceImpl>()
 
-    private var clusters = getClustersFromConfig()
+    private var clusters = clusterSource.getClusters()
 
     private val clients: Map<String, KubernetesClient> = clusters
         .map { Pair(it.name, createClusterClient(it)) }
@@ -47,23 +44,6 @@ class ClusterServiceImpl(
                 logger.error("Can't close client for cluster ${it.clusterName}", e)
             }
         }
-    }
-
-    private fun getClustersFromConfig(): List<KubeCluster> {
-        return config.clusters
-            .map { cluster ->
-                val tokenInfo = config.tokens.singleOrNull { token -> token.name == cluster.name }
-                KubeCluster(
-                    cluster.name, cluster.displayName, cluster.host, cluster.dc,
-                    token = tokenSource.getToken(cluster.tokenName ?: cluster.name) ?: tokenInfo?.token
-                        ?: emptyToken(cluster.name)
-                )
-            }
-    }
-
-    private fun emptyToken(clusterName: String): String? {
-        logger.error("Can't find token for cluster $clusterName")
-        return null
     }
 
     private fun createClusterClient(kubeCluster: KubeCluster): KubernetesClient {

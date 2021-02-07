@@ -1,5 +1,5 @@
 {
-  "name": "devops-mission-control-spa",
+  "name": "mission-control-spa",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -31,7 +31,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0"
   },
-  "proxy": "http://localhost:10000",
+  "proxy": "http://localhost:8080",
   "scripts": {
     "start": "react-scripts start",
     "lint": "yarn eslint src/**/*.js",

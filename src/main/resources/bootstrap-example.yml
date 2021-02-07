@@ -2,22 +2,10 @@ spring:
   profiles:
     active: ${ENVIRONMENT_PROFILE_NAME:dev,local}
   application:
-    name: devops-mission-control
+    name: mission-control
   cloud:
     vault:
-      host: ${VAULT_HOST:}
-      port: ${VAULT_PORT:8200}
-      scheme: ${VAULT_SCHEME:https}
-      fail-fast: true
-      application-name: applications/devops/common,applications/devops/devops-mission-control
-      generic.default-context: applications/common
-      kv:
-        enabled: true
-        backend: secret
-        profile-separator: '/'
-        default-context: applications/common
-      authentication: KUBERNETES
-      kubernetes:
-        role: 'devops-mission-control'
-        kubernetes-path: ${VAULT_KUBERNETES_PATH:kubernetes}
-        service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      fail-fast: false
+      generic.enabled: false
+      kv.enabled: false
+      authentication: NONE
